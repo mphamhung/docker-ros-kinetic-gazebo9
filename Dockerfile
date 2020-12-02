@@ -19,4 +19,14 @@ RUN apt-get install -y python-pip && pip install catkin-tools
 
 WORKDIR /sim_ws/
 
+## open_ai dependencies
+RUN pip install --upgrade pip && pip install --ignore-installed gym xacro lxml gitpython torch torchvision
+RUN apt-get install -y ros-kinetic-pid ros-kinetic-xacro ros-kinetic-joy ros-kinetic-yocs-cmd-vel-mux ros-kinetic-robot-state-publisher
+RUN echo "source devel/setup.bash" >> /root/.bash
 
+ARG USER_ID
+ARG GROUP_ID
+
+RUN addgroup --gid $GROUP_ID user
+RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
+USER user
